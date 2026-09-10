@@ -97,7 +97,7 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
             {/* Original Crime Scene */}
             {caseData.sceneImage && (
               <div className="mb-4">
-                <h2 className="font-display text-lg text-evidence-ink mb-2">CRIME SCENE</h2>
+                <h2 className="font-display text-xl text-evidence-ink mb-2">CRIME SCENE</h2>
                 <img
                   src={caseData.sceneImage}
                   alt="Original crime scene"
@@ -109,29 +109,32 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
             {/* Evidence Items */}
             {caseData.evidence.length > 0 && (
               <div className="mb-4">
-                <h2 className="font-display text-lg text-evidence-ink mb-2">EVIDENCE LOG</h2>
-                <div className="grid grid-cols-2 gap-2">
+                <h2 className="font-display text-xl text-evidence-ink mb-2">EVIDENCE LOG</h2>
+                <div className="space-y-2">
                   {caseData.evidence.map((item, i) => (
                     <div key={item.id} className="border border-evidence-ink/20 rounded-sm overflow-hidden">
-                      <div className="h-28 bg-vice-bg/5 border-b border-evidence-ink/10 flex items-center justify-center p-1.5">
-                        <img
-                          src={item.annotatedImage}
-                          alt={item.label}
-                          className="max-w-full max-h-full object-contain"
-                        />
-                      </div>
-                      <div className="px-2 py-1.5">
+                      <img
+                        src={item.annotatedImage}
+                        alt={item.label}
+                        className="w-full"
+                      />
+                      <div className="px-2 py-2">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-evidence-ink/40 font-mono text-[10px] tabular-nums">
+                          <span className="text-evidence-ink/40 font-mono text-xs tabular-nums">
                             #{String(i + 1).padStart(2, '0')}
                           </span>
-                          <span className="text-evidence-ink font-mono text-[10px] font-semibold uppercase truncate">
+                          <span className="text-evidence-ink font-mono text-xs font-semibold uppercase">
                             {item.label}
                           </span>
+                          <span className="text-evidence-ink/50 font-mono text-[10px] uppercase ml-auto">
+                            {getActionLabel(item.action)}
+                          </span>
                         </div>
-                        <div className="text-evidence-ink/50 font-mono text-[9px] uppercase">
-                          {getActionLabel(item.action)}
-                        </div>
+                        {item.description && (
+                          <div className="text-evidence-ink/60 font-prose text-[11px] mt-0.5">
+                            {item.description}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -142,7 +145,7 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
             {/* Notes */}
             {caseData.notes && (
               <div className="mb-4">
-                <h2 className="font-display text-lg text-evidence-ink mb-2">INCIDENT NOTES</h2>
+                <h2 className="font-display text-xl text-evidence-ink mb-2">INCIDENT NOTES</h2>
                 <div className="font-prose text-xs text-evidence-ink leading-relaxed whitespace-pre-wrap">
                   {caseData.notes}
                 </div>
