@@ -1,8 +1,5 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import type { CaseData, EvidenceItem } from '../types'
-
-const STORAGE_KEY = 'leonida-casefile'
-export const SCREEN_KEY = 'leonida-screen'
 
 const generateCaseNumber = () =>
   `LC-${String(Math.floor(1000 + Math.random() * 9000))}`
@@ -17,29 +14,8 @@ const initialCase = (): CaseData => ({
   evidence: [],
 })
 
-function loadCase(): CaseData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) {
-      const parsed = JSON.parse(raw) as CaseData
-      if (parsed.caseNumber && Array.isArray(parsed.evidence)) return parsed
-    }
-  } catch {}
-  return initialCase()
-}
-
-function saveCase(data: CaseData) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  } catch {}
-}
-
 export function useCase() {
-  const [caseData, setCaseData] = useState<CaseData>(loadCase)
-
-  useEffect(() => {
-    saveCase(caseData)
-  }, [caseData])
+  const [caseData, setCaseData] = useState<CaseData>(initialCase)
 
   const updateCase = useCallback((updates: Partial<CaseData>) => {
     setCaseData((c) => ({ ...c, ...updates }))
@@ -69,10 +45,7 @@ export function useCase() {
   }, [])
 
   const resetCase = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEY)
-    localStorage.removeItem(SCREEN_KEY)
-    const fresh = initialCase()
-    setCaseData(fresh)
+    setCaseData(initialCase())
   }, [])
 
   return {
