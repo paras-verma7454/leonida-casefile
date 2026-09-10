@@ -67,7 +67,9 @@ export default function EvidenceList({ evidence, onRemove, onEdit }: EvidenceLis
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
-                    onRemove(item.id)
+                    if (window.confirm('Remove this evidence?')) {
+                      onRemove(item.id)
+                    }
                   }}
                   className="text-text-muted hover:text-police-red font-mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
                 >

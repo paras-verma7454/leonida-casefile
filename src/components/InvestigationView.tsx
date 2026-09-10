@@ -8,7 +8,7 @@ import type { CaseData, EvidenceAction, EvidenceItem, Screen } from '../types'
 interface InvestigationViewProps {
   caseData: CaseData
   onNavigate: (screen: Screen) => void
-  onAddEvidence: (item: { action: EvidenceAction; label: string; description: string; annotatedImage: string; originalImage: string }) => void
+  onAddEvidence: (item: { action: EvidenceAction; label: string; description: string; annotatedImage: string }) => void
   onUpdateEvidence: (id: string, updates: Partial<EvidenceItem>) => void
   onRemoveEvidence: (id: string) => void
 }
@@ -40,20 +40,17 @@ export default function InvestigationView({
       if (!activeAction || !caseData.sceneImage) return
 
       if (editingEvidence) {
-        // Update existing evidence
         onUpdateEvidence(editingEvidence.id, {
           label,
           description,
           annotatedImage,
         })
       } else {
-        // Add new evidence
         onAddEvidence({
           action: activeAction,
           label,
           description,
           annotatedImage,
-          originalImage: caseData.sceneImage,
         })
       }
 
@@ -74,17 +71,21 @@ export default function InvestigationView({
 
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Left: Scene Image */}
-        <div className="flex-1 min-w-0 flex items-center justify-center bg-vice-bg p-4">
+        <div className="flex-1 min-w-0 flex items-center justify-center bg-vice-bg p-6">
           {caseData.sceneImage ? (
             <img
               src={caseData.sceneImage}
               alt="Crime scene"
-              className="max-w-full max-h-full object-contain rounded-sm"
+              className="max-w-full max-h-full object-contain rounded-sm border border-vice-border"
             />
           ) : (
             <div className="text-center">
-              <div className="text-text-muted/30 font-mono text-sm">
+              <div className="text-4xl mb-3">📷</div>
+              <div className="text-text-muted/50 font-mono text-sm">
                 No crime scene photograph
+              </div>
+              <div className="text-text-muted/30 font-mono text-[10px] mt-1">
+                Upload one when creating a new case
               </div>
             </div>
           )}
@@ -92,12 +93,9 @@ export default function InvestigationView({
 
         {/* Right sidebar */}
         <div className="w-[280px] min-w-[280px] shrink-0 border-l border-vice-border bg-vice-surface overflow-y-auto flex flex-col">
-          {/* Image Actions */}
           <div className="p-4 border-b border-vice-border">
-            <EvidenceActions onAction={handleAction} />
+            <EvidenceActions onAction={handleAction} disabled={!caseData.sceneImage} activeAction={activeAction} />
           </div>
-
-          {/* Evidence List */}
           <div className="p-4 flex-1 min-h-0 overflow-y-auto">
             <EvidenceList
               evidence={caseData.evidence}
@@ -108,7 +106,7 @@ export default function InvestigationView({
         </div>
       </div>
 
-      {/* Editor Modal */}
+      {/* Editor Modal — all actions including filter */}
       {activeAction && caseData.sceneImage && (
         <EditorModal
           action={activeAction}

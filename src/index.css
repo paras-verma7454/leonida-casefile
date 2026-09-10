@@ -10,7 +10,6 @@
   --color-sunset-coral: #FF6B61;
   --color-sunset-orange: #FF9B54;
   --color-vice-cyan: #20D9D2;
-  --color-vice-teal: #00AFA8;
   --color-evidence-paper: #F3EBD0;
   --color-evidence-ink: #1A1A1A;
   --color-police-red: #E54840;
@@ -21,10 +20,6 @@
   --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
   --font-display: 'Special Elite', cursive;
   --font-prose: 'Courier Prime', 'Courier New', Courier, monospace;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 body {
@@ -78,14 +73,6 @@ body {
   background-size: 24px 24px;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
-}
-
-/* === Redacted Text === */
-.redacted {
-  background-color: var(--color-evidence-ink);
-  color: transparent;
-  border-radius: 2px;
-  user-select: none;
 }
 
 /* === Stamp Effect === */
@@ -150,31 +137,6 @@ body {
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* === Score Bar Fill === */
-@keyframes fillBar {
-  from { width: 0%; }
-}
-
-/* === Type Effect (Typewriter) === */
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blinkCursor {
-  0%, 100% { border-right-color: var(--color-vice-cyan); }
-  50% { border-right-color: transparent; }
-}
-
-.type-effect {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid var(--color-vice-cyan);
-  animation:
-    typewriter 2s steps(40) forwards,
-    blinkCursor 0.75s step-end infinite;
-}
-
 /* === Scrollbar === */
 ::-webkit-scrollbar {
   width: 6px;
@@ -199,30 +161,6 @@ body {
 *:focus-visible {
   outline: 2px solid var(--color-vice-cyan);
   outline-offset: 2px;
-}
-
-/* === Layout Containment === */
-.contain-layout {
-  contain: layout size;
-}
-
-/* === Glow Effects === */
-.glow-pink {
-  box-shadow: 0 0 20px rgba(255, 63, 142, 0.3), 0 0 40px rgba(255, 63, 142, 0.1);
-}
-
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(32, 217, 210, 0.3), 0 0 40px rgba(32, 217, 210, 0.1);
-}
-
-/* === Pulse Animation === */
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.pulse-green {
-  animation: pulse-green 2s ease-in-out infinite;
 }
 
 /* === Vignette for Terminal === */
@@ -252,27 +190,24 @@ button {
   font: inherit;
 }
 
-/* === Smooth Transitions === */
-.transition-glow {
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-/* === Stagger Animation Delays === */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
 /* === Hide Unlayer Editor's built-in Save/Cancel buttons === */
 /* We use our own save flow with evidence naming, so hide Unlayer's built-in ones */
-div[class*="toolbar"] button,
-div[class*="Toolbar"] button {
+[data-editor-id] button,
+.unlayer-editor button {
   color: transparent !important;
   pointer-events: none !important;
 }
 
 /* Restore tool buttons on the right side */
-div[class*="tool-"] button,
-div[class*="Tool-"] button {
+[data-editor-id] [class*="tool"] button,
+.unlayer-editor [class*="tool"] button {
+  color: inherit !important;
+  pointer-events: auto !important;
+}
+
+/* Restore Save button in the filter/action panel */
+[data-editor-id] [class*="action"] button,
+.unlayer-editor [class*="action"] button {
   color: inherit !important;
   pointer-events: auto !important;
 }
@@ -300,7 +235,6 @@ div[class*="Tool-"] button {
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
 
   html, body {
@@ -382,7 +316,7 @@ div[class*="Tool-"] button {
     padding: 40px !important;
   }
 
-  .print\:hidden, header, nav, .crt::before, .noise::after, .vignette::before {
+  .print\:hidden, .crt::before, .noise::after, .vignette::before {
     display: none !important;
   }
 

@@ -8,7 +8,6 @@ export interface EvidenceItem {
   label: string
   description: string
   annotatedImage: string
-  originalImage: string
   timestamp: string
 }
 

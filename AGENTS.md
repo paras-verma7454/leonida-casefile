@@ -49,20 +49,18 @@ LEONIDA CASEFILE is a GTA VI-inspired police case investigation tool built for t
 - Paper texture (`.paper-texture`)
 - Stamp slam animation (`@keyframes stampSlam`)
 - Flicker animation (terminal only)
-- Score bar fill animation (`@keyframes fillBar`)
 
 ## Application Flow
 1. **Terminal** — Boot screen with flicker + typewriter effect
-2. **Case Creation** — Form with location, time, status, notes
-3. **Investigate** — Editor (80% of screen) + Evidence Tools + Log + Score
-4. **Casefile** — Generated dossier for download/share
+2. **Case Creation** — Form with image upload, location, time, status, notes
+3. **Investigate** — Scene image (left) + Evidence Actions + Evidence List (right sidebar)
+4. **Casefile** — Generated dossier for print/download
 
 ## Key Rules
 - **NO AI features** — React Image Editor manual tools only
 - **3 font max** — JetBrains Mono, Special Elite, Courier Prime
 - **No terminal green** — Use vice-cyan, vice-pink, sunset-coral
 - **Stamp animation** — Only trigger on first render
-- **Evidence Score** — Fictional metric (0-100), calculated from user inputs
 - **Disclaimer required** — "A fan-made experience inspired by open-world crime games. Not affiliated with Rockstar Games."
 
 ## Component Structure
@@ -73,18 +71,18 @@ src/
 ├── index.css
 ├── types/index.ts
 ├── hooks/useCase.ts
-├── utils/evidenceScore.ts
-├── data/locations.ts
+├── utils/compressImage.ts
+├── data/
+│   ├── evidenceActions.ts
+│   └── locations.ts
 └── components/
     ├── Terminal.tsx
     ├── CaseCreation.tsx
     ├── Header.tsx
     ├── InvestigationView.tsx
-    ├── EditorPanel.tsx
-    ├── EvidenceTools.tsx
-    ├── EvidenceLog.tsx
-    ├── CaseDetails.tsx
-    ├── EvidenceScore.tsx
+    ├── EditorModal.tsx
+    ├── EvidenceActions.tsx
+    ├── EvidenceList.tsx
     └── CasefileView.tsx
 ```
 

@@ -9,5 +9,3 @@ export const locations = [
   'Escobar International Airport',
   'Viceport',
 ] as const
-
-export type Location = (typeof locations)[number]

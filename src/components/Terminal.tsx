@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface TerminalProps {
   onEnter: () => void
@@ -45,17 +45,23 @@ export default function Terminal({ onEnter }: TerminalProps) {
     return () => clearInterval(timer)
   }, [showPrompt])
 
+  const containerRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (!showPrompt) return
+    const el = containerRef.current
+    if (!el) return
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Enter') onEnter()
     }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
+    el.addEventListener('keydown', handler)
+    return () => el.removeEventListener('keydown', handler)
   }, [showPrompt, onEnter])
 
   return (
     <div
+      ref={containerRef}
+      tabIndex={showPrompt ? 0 : -1}
       className="flicker vignette crt noise min-h-screen bg-vice-bg flex items-center justify-center p-8"
       onClick={showPrompt ? onEnter : undefined}
     >

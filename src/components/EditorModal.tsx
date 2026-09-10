@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import ImageEditor, { type ImageEditorInstance } from '@unlayer/react-image-editor'
 import { evidenceActions } from '../data/evidenceActions'
 import { compressImage } from '../utils/compressImage'
@@ -40,7 +40,7 @@ export default function EditorModal({
 
   // This is called when user clicks Unlayer's built-in Save button
   const handleEditorSave = useCallback(
-    async (result: { dataUrl: string; blob: Blob }) => {
+    async (result: { dataUrl: string }) => {
       const compressed = await compressImage(result.dataUrl)
       setSavedImage(compressed)
       setStep('name')
@@ -58,13 +58,16 @@ export default function EditorModal({
   }, [])
 
   // Build Unlayer tools config from action
-  const allTools = ['draw', 'text', 'shapes', 'crop', 'resize', 'filter', 'stickers', 'frame']
-  const enabledTools = actionConfig?.tools || []
+  const allTools = useMemo(() => ['draw', 'text', 'shapes', 'crop', 'resize', 'filter'], [])
 
-  const toolsConfig: Record<string, boolean> = {}
-  allTools.forEach((tool) => {
-    toolsConfig[tool] = enabledTools.includes(tool)
-  })
+  const toolsConfig = useMemo(() => {
+    const enabledTools = actionConfig?.tools || []
+    const config: Record<string, boolean> = {}
+    allTools.forEach((tool) => {
+      config[tool] = enabledTools.includes(tool)
+    })
+    return config
+  }, [actionConfig?.tools, allTools])
 
   // Use existing annotated image if editing, otherwise use original
   const editorImage = existingEvidence?.annotatedImage || image
@@ -98,7 +101,7 @@ export default function EditorModal({
         {/* Content */}
         {step === 'edit' ? (
           /* Editor */
-          <div className="flex-1 min-h-0 overflow-hidden relative">
+          <div className="flex-1 min-w-0 min-h-0 flex relative">
             <ImageEditor
               image={editorImage}
               options={{
@@ -106,12 +109,12 @@ export default function EditorModal({
                 features: {
                   ai: false,
                   imageEditor: {
+                    dock: 'right',
                     tools: toolsConfig,
                   },
                 },
-              }}
+              } as any}
               editorId={`editor-${action}-${existingEvidence?.id || 'new'}`}
-              minHeight="100%"
               onLoad={handleLoad}
               onSave={handleEditorSave}
             />

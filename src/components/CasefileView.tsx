@@ -10,7 +10,7 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
   const getActionLabel = (action: string) =>
     evidenceActions.find((a) => a.id === action)?.label || action
 
-  const handleDownload = () => {
+  const handlePrint = () => {
     window.print()
   }
 
@@ -26,10 +26,10 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
             ← BACK TO INVESTIGATION
           </button>
           <button
-            onClick={handleDownload}
+            onClick={handlePrint}
             className="px-4 py-2 bg-vice-pink text-white font-mono text-xs rounded-sm hover:bg-vice-magenta transition-colors"
           >
-            DOWNLOAD PDF
+            PRINT DOSSIER
           </button>
         </div>
 

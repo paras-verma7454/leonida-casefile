@@ -6,11 +6,12 @@ interface HeaderProps {
 }
 
 export default function Header({ caseData, onNavigate }: HeaderProps) {
-  const statusColor = {
+  const statusColor: Record<string, string> = {
     ACTIVE: 'text-active-green',
     'UNDER REVIEW': 'text-sunset-orange',
     CLOSED: 'text-text-muted',
-  }[caseData.status]
+  }
+  const statusClass = statusColor[caseData.status] ?? 'text-text-muted'
 
   return (
     <header className="bg-vice-surface border-b border-vice-border px-5 py-3 flex items-center justify-between shrink-0">
@@ -27,7 +28,7 @@ export default function Header({ caseData, onNavigate }: HeaderProps) {
           </div>
           <div>
             <span className="text-text-muted mr-1.5">STATUS</span>
-            <span className={statusColor}>{caseData.status}</span>
+            <span className={statusClass}>{caseData.status}</span>
           </div>
           {caseData.location && (
             <div>
@@ -60,7 +61,11 @@ export default function Header({ caseData, onNavigate }: HeaderProps) {
       {/* Right: Actions */}
       <div className="flex items-center gap-3">
         <button
-          onClick={() => onNavigate('terminal')}
+          onClick={() => {
+            if (window.confirm('This will erase all current evidence. Continue?')) {
+              onNavigate('terminal')
+            }
+          }}
           className="px-3 py-1.5 font-mono text-[11px] text-text-muted border border-vice-border rounded-sm hover:text-text-primary hover:border-vice-cyan/50 transition-colors"
         >
           NEW CASE

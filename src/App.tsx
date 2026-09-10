@@ -3,10 +3,8 @@ import Terminal from './components/Terminal'
 import CaseCreation from './components/CaseCreation'
 import InvestigationView from './components/InvestigationView'
 import CasefileView from './components/CasefileView'
-import { useCase } from './hooks/useCase'
+import { useCase, SCREEN_KEY } from './hooks/useCase'
 import type { Screen, CaseStatus } from './types'
-
-const SCREEN_KEY = 'leonida-screen'
 
 function loadScreen(hasCase: boolean): Screen {
   try {
@@ -34,21 +32,14 @@ export default function App() {
 
   const handleCaseSubmit = useCallback(
     (data: { location: string; time: string; status: CaseStatus; notes: string; sceneImage: string | null }) => {
-      updateCase({
-        location: data.location,
-        time: data.time,
-        status: data.status,
-        notes: data.notes,
-        sceneImage: data.sceneImage,
-      })
-      setScreen('investigate')
-      try { localStorage.setItem(SCREEN_KEY, 'investigate') } catch {}
+      updateCase(data)
+      navigate('investigate')
     },
-    [updateCase]
+    [updateCase, navigate]
   )
 
   if (screen === 'terminal') {
-    return <Terminal onEnter={() => setScreen('create')} />
+    return <Terminal onEnter={() => navigate('create')} />
   }
 
   if (screen === 'create') {

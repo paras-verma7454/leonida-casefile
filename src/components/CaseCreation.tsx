@@ -34,8 +34,11 @@ export default function CaseCreation({ caseNumber, onSubmit }: CaseCreationProps
     if (file) handleFile(file)
   }
 
+  const canSubmit = !!sceneImage || !!location
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!canSubmit) return
     onSubmit({ location, time, status, notes, sceneImage })
   }
 
@@ -168,10 +171,16 @@ export default function CaseCreation({ caseNumber, onSubmit }: CaseCreationProps
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-vice-pink text-white font-mono text-sm py-3 rounded-sm hover:bg-vice-magenta transition-colors uppercase tracking-wider"
+            disabled={!canSubmit}
+            className="w-full bg-vice-pink text-white font-mono text-sm py-3 rounded-sm hover:bg-vice-magenta transition-colors uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-vice-pink"
           >
             OPEN CASE →
           </button>
+          {!canSubmit && (
+            <div className="text-sunset-orange font-mono text-[10px] text-center">
+              Upload a photo or select a location to proceed
+            </div>
+          )}
         </form>
       </div>
     </div>

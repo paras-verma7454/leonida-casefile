@@ -15,9 +15,17 @@ export function compressImage(dataUrl: string): Promise<string> {
       canvas.width = MAX_WIDTH
       canvas.height = img.height * scale
 
-      const ctx = canvas.getContext('2d')!
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        resolve(dataUrl)
+        return
+      }
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      resolve(canvas.toDataURL('image/jpeg', JPEG_QUALITY))
+
+      const isPng = dataUrl.startsWith('data:image/png')
+      const mimeType = isPng ? 'image/png' : 'image/jpeg'
+      const quality = isPng ? undefined : JPEG_QUALITY
+      resolve(canvas.toDataURL(mimeType, quality))
     }
     img.onerror = () => resolve(dataUrl)
     img.src = dataUrl

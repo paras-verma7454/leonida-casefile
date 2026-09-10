@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import type { CaseData, EvidenceItem } from '../types'
 
 const STORAGE_KEY = 'leonida-casefile'
+export const SCREEN_KEY = 'leonida-screen'
 
 const generateCaseNumber = () =>
   `LC-${String(Math.floor(1000 + Math.random() * 9000))}`
@@ -21,7 +22,7 @@ function loadCase(): CaseData {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (raw) {
       const parsed = JSON.parse(raw) as CaseData
-      if (parsed.caseNumber) return parsed
+      if (parsed.caseNumber && Array.isArray(parsed.evidence)) return parsed
     }
   } catch {}
   return initialCase()
@@ -69,7 +70,7 @@ export function useCase() {
 
   const resetCase = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY)
-    localStorage.removeItem('leonida-screen')
+    localStorage.removeItem(SCREEN_KEY)
     const fresh = initialCase()
     setCaseData(fresh)
   }, [])
