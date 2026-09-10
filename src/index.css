@@ -137,6 +137,38 @@ body {
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
+/* === Screen Transition === */
+@keyframes screenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.screen-enter {
+  animation: screenFadeIn 0.3s ease-out;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .investigation-layout {
+    flex-direction: column;
+  }
+  .investigation-sidebar {
+    width: 100% !important;
+    min-width: 0 !important;
+    border-left: none !important;
+    border-top: 1px solid var(--color-vice-border);
+  }
+  .header-metadata {
+    display: none;
+  }
+}
+
 /* === Scrollbar === */
 ::-webkit-scrollbar {
   width: 6px;
@@ -188,6 +220,39 @@ body {
 button {
   cursor: pointer;
   font: inherit;
+}
+
+/* === GTA VI Sunset Gradient Bar === */
+.sunset-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #FF3F8E, #FF9B54, #9B59B6);
+  flex-shrink: 0;
+}
+
+/* === Neon Glow Effects === */
+.glow-pink {
+  box-shadow: 0 0 12px rgba(255, 63, 142, 0.3);
+}
+.glow-cyan {
+  box-shadow: 0 0 12px rgba(32, 217, 210, 0.3);
+}
+.glow-pink-hover:hover {
+  box-shadow: 0 0 20px rgba(255, 63, 142, 0.4);
+}
+.glow-cyan-hover:hover {
+  box-shadow: 0 0 20px rgba(32, 217, 210, 0.4);
+}
+
+/* === Glass Panel === */
+.glass-panel {
+  background: rgba(20, 23, 43, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(45, 51, 91, 0.5);
+}
+
+/* === Terminal Gradient Background === */
+.terminal-gradient {
+  background: linear-gradient(180deg, #0B0A10 0%, #14172B 100%);
 }
 
 /* === Hide Unlayer Editor's built-in Save/Cancel buttons === */

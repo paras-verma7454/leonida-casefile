@@ -39,33 +39,40 @@ export default function App() {
   )
 
   if (screen === 'terminal') {
-    return <Terminal onEnter={() => navigate('create')} />
+    return <div className="screen-enter"><Terminal onEnter={() => navigate('create')} /></div>
   }
 
   if (screen === 'create') {
     return (
-      <CaseCreation
-        caseNumber={caseData.caseNumber}
-        onSubmit={handleCaseSubmit}
-      />
+      <div className="screen-enter">
+        <CaseCreation
+          caseNumber={caseData.caseNumber}
+          onSubmit={handleCaseSubmit}
+          onNavigate={navigate}
+        />
+      </div>
     )
   }
 
   if (screen === 'investigate') {
     return (
-      <InvestigationView
-        caseData={caseData}
-        onNavigate={navigate}
-        onAddEvidence={addEvidence}
-        onUpdateEvidence={updateEvidence}
-        onRemoveEvidence={removeEvidence}
-      />
+      <div className="screen-enter">
+        <InvestigationView
+          caseData={caseData}
+          onNavigate={navigate}
+          onAddEvidence={addEvidence}
+          onUpdateEvidence={updateEvidence}
+          onRemoveEvidence={removeEvidence}
+        />
+      </div>
     )
   }
 
   if (screen === 'casefile') {
     return (
-      <CasefileView caseData={caseData} onNavigate={navigate} />
+      <div className="screen-enter">
+        <CasefileView caseData={caseData} onNavigate={navigate} />
+      </div>
     )
   }
 

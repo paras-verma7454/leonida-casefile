@@ -15,7 +15,7 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
   }
 
   return (
-    <div className="min-h-screen bg-vice-bg p-8" id="casefile-root">
+    <div className="min-h-screen bg-vice-bg p-4 md:p-8" id="casefile-root">
       <div className="max-w-3xl mx-auto">
         {/* Top bar - hidden when printing */}
         <div className="flex items-center justify-between mb-6 print:hidden">

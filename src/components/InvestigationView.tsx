@@ -69,7 +69,7 @@ export default function InvestigationView({
     <div className="h-screen bg-vice-bg flex flex-col overflow-hidden">
       <Header caseData={caseData} onNavigate={onNavigate} />
 
-      <div className="flex-1 flex min-h-0 overflow-hidden">
+      <div className="flex-1 flex min-h-0 overflow-hidden investigation-layout">
         {/* Left: Scene Image */}
         <div className="flex-1 min-w-0 flex items-center justify-center bg-vice-bg p-6">
           {caseData.sceneImage ? (
@@ -92,7 +92,7 @@ export default function InvestigationView({
         </div>
 
         {/* Right sidebar */}
-        <div className="w-[280px] min-w-[280px] shrink-0 border-l border-vice-border bg-vice-surface overflow-y-auto flex flex-col">
+        <div className="w-[280px] min-w-[280px] shrink-0 border-l border-vice-border glass-panel overflow-y-auto flex flex-col investigation-sidebar">
           <div className="p-4 border-b border-vice-border">
             <EvidenceActions onAction={handleAction} disabled={!caseData.sceneImage} activeAction={activeAction} />
           </div>

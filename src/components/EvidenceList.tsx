@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import ConfirmDialog from './ConfirmDialog'
 import type { EvidenceItem } from '../types'
 import { evidenceActions } from '../data/evidenceActions'
 
@@ -8,6 +10,7 @@ interface EvidenceListProps {
 }
 
 export default function EvidenceList({ evidence, onRemove, onEdit }: EvidenceListProps) {
+  const [confirmDialog, setConfirmDialog] = useState<{ message: string; onConfirm: () => void } | null>(null)
   const getActionLabel = (action: string) =>
     evidenceActions.find((a) => a.id === action)?.label || action
 
@@ -67,9 +70,10 @@ export default function EvidenceList({ evidence, onRemove, onEdit }: EvidenceLis
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
-                    if (window.confirm('Remove this evidence?')) {
-                      onRemove(item.id)
-                    }
+                    setConfirmDialog({
+                      message: 'Remove this evidence?',
+                      onConfirm: () => onRemove(item.id),
+                    })
                   }}
                   className="text-text-muted hover:text-police-red font-mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
                 >
@@ -79,6 +83,15 @@ export default function EvidenceList({ evidence, onRemove, onEdit }: EvidenceLis
             </div>
           ))}
         </div>
+      )}
+
+      {confirmDialog && (
+        <ConfirmDialog
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={() => setConfirmDialog(null)}
+          confirmText="REMOVE"
+        />
       )}
     </div>
   )

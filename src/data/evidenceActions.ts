@@ -14,7 +14,7 @@ export const evidenceActions: EvidenceActionConfig[] = [
     label: 'MARK EVIDENCE',
     icon: '⊕',
     description: 'Circle or highlight evidence in the scene',
-    tools: ['draw', 'shapes', 'text'],
+    tools: ['draw', 'shape', 'text'],
   },
   {
     id: 'crop',
@@ -35,13 +35,13 @@ export const evidenceActions: EvidenceActionConfig[] = [
     label: 'ADD ANNOTATION',
     icon: '✎',
     description: 'Add text or arrows to the scene',
-    tools: ['draw', 'text', 'shapes'],
+    tools: ['draw', 'text', 'shape'],
   },
   {
     id: 'redact',
     label: 'REDACT',
     icon: '■',
     description: 'Obscure sensitive information',
-    tools: ['shapes'],
+    tools: ['shape'],
   },
 ]

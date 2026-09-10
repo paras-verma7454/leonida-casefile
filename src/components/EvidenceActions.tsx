@@ -23,7 +23,7 @@ export default function EvidenceActions({ onAction, disabled, activeAction }: Ev
               disabled={disabled}
               className={`flex flex-col items-center gap-1 px-2 py-2.5 border rounded-sm text-center transition-all group disabled:opacity-30 disabled:cursor-not-allowed ${
                 isActive
-                  ? 'bg-vice-cyan/10 border-vice-cyan text-vice-cyan'
+                  ? 'bg-vice-cyan/10 border-vice-cyan text-vice-cyan glow-cyan'
                   : 'bg-vice-card border-vice-border hover:border-vice-cyan/50 hover:bg-vice-cyan/5'
               }`}
             >

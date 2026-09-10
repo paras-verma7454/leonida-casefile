@@ -49,6 +49,11 @@ export default function Terminal({ onEnter }: TerminalProps) {
 
   useEffect(() => {
     if (!showPrompt) return
+    containerRef.current?.focus()
+  }, [showPrompt])
+
+  useEffect(() => {
+    if (!showPrompt) return
     const el = containerRef.current
     if (!el) return
     const handler = (e: KeyboardEvent) => {
@@ -62,10 +67,17 @@ export default function Terminal({ onEnter }: TerminalProps) {
     <div
       ref={containerRef}
       tabIndex={showPrompt ? 0 : -1}
-      className="flicker vignette crt noise min-h-screen bg-vice-bg flex items-center justify-center p-8"
+      className="vignette crt noise min-h-screen flex items-center justify-center p-8 relative cursor-pointer"
+      style={{
+        backgroundImage: 'url(/gta-6.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
       onClick={showPrompt ? onEnter : undefined}
     >
-      <div className="w-full max-w-2xl">
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-vice-bg/70" />
+      <div className="w-full max-w-2xl relative z-10">
         {/* Terminal header bar */}
         <div className="bg-vice-surface border border-vice-border rounded-t-sm px-4 py-2 flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-police-red" />

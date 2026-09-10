@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ImageEditor, { type ImageEditorInstance } from '@unlayer/react-image-editor'
 import { evidenceActions } from '../data/evidenceActions'
 import { compressImage } from '../utils/compressImage'
@@ -30,6 +30,7 @@ export default function EditorModal({
   const [label, setLabel] = useState(existingEvidence?.label || '')
   const [description, setDescription] = useState(existingEvidence?.description || '')
   const [savedImage, setSavedImage] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   const actionConfig = evidenceActions.find((a) => a.id === action)
 
@@ -41,8 +42,10 @@ export default function EditorModal({
   // This is called when user clicks Unlayer's built-in Save button
   const handleEditorSave = useCallback(
     async (result: { dataUrl: string }) => {
+      setIsSaving(true)
       const compressed = await compressImage(result.dataUrl)
       setSavedImage(compressed)
+      setIsSaving(false)
       setStep('name')
     },
     []
@@ -57,8 +60,17 @@ export default function EditorModal({
     setStep('edit')
   }, [])
 
+  // Escape key to close
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onCancel()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [onCancel])
+
   // Build Unlayer tools config from action
-  const allTools = useMemo(() => ['draw', 'text', 'shapes', 'crop', 'resize', 'filter'], [])
+  const allTools = useMemo(() => ['draw', 'text', 'shape', 'crop', 'resize', 'filter'], [])
 
   const toolsConfig = useMemo(() => {
     const enabledTools = actionConfig?.tools || []
@@ -73,9 +85,9 @@ export default function EditorModal({
   const editorImage = existingEvidence?.annotatedImage || image
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-label={existingEvidence ? 'Edit evidence' : actionConfig?.label}>
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-vice-bg/90 backdrop-blur-sm" onClick={onCancel} />
+      <div className="absolute inset-0 bg-vice-bg/90 backdrop-blur-sm" onClick={onCancel} aria-hidden="true" />
 
       {/* Modal */}
       <div className="relative w-full max-w-5xl h-[85vh] mx-4 bg-vice-surface border border-vice-border rounded-sm overflow-hidden flex flex-col">
@@ -92,6 +104,7 @@ export default function EditorModal({
           </div>
           <button
             onClick={onCancel}
+            aria-label="Close editor"
             className="px-3 py-1.5 font-mono text-xs text-text-muted hover:text-text-primary border border-vice-border rounded-sm transition-colors"
           >
             CLOSE
@@ -122,6 +135,13 @@ export default function EditorModal({
               <div className="absolute inset-0 flex items-center justify-center bg-vice-surface z-10">
                 <div className="text-text-muted font-mono text-sm animate-pulse">
                   LOADING EDITOR...
+                </div>
+              </div>
+            )}
+            {isSaving && (
+              <div className="absolute inset-0 flex items-center justify-center bg-vice-surface/80 z-10">
+                <div className="text-text-muted font-mono text-sm animate-pulse">
+                  SAVING...
                 </div>
               </div>
             )}
@@ -156,6 +176,7 @@ export default function EditorModal({
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
                   placeholder="e.g., Getaway vehicle, Suspect face, License plate..."
+                  aria-label="Evidence label"
                   className="w-full bg-vice-card border border-vice-border text-text-primary font-mono text-sm px-3 py-2.5 rounded-sm focus:border-vice-cyan focus:outline-none transition-colors placeholder:text-text-muted/40"
                   autoFocus
                 />
@@ -171,6 +192,7 @@ export default function EditorModal({
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
                   placeholder="Optional notes about this evidence..."
+                  aria-label="Evidence description"
                   className="w-full bg-vice-card border border-vice-border text-text-primary font-mono text-sm px-3 py-2.5 rounded-sm resize-none focus:border-vice-cyan focus:outline-none transition-colors placeholder:text-text-muted/40"
                 />
               </div>
