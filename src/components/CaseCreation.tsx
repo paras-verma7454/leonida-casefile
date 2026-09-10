@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { locations } from '../data/locations'
+import { compressImage } from '../utils/compressImage'
 import type { CaseStatus } from '../types'
 
 interface CaseCreationProps {
@@ -16,10 +17,13 @@ export default function CaseCreation({ caseNumber, onSubmit }: CaseCreationProps
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     if (!file.type.startsWith('image/')) return
     const reader = new FileReader()
-    reader.onload = () => setSceneImage(reader.result as string)
+    reader.onload = async () => {
+      const compressed = await compressImage(reader.result as string)
+      setSceneImage(compressed)
+    }
     reader.readAsDataURL(file)
   }
 

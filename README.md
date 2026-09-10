@@ -1,32 +1,57 @@
-# React + TypeScript + Vite
+# LEONIDA CASEFILE
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A GTA VI-inspired police case investigation tool. Upload crime scene photos, annotate evidence using React Image Editor, and generate stylized police dossier casefiles.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Terminal Boot Sequence** — CRT scanlines, noise grain, typewriter animation
+- **Case Creation** — Upload crime scene photo, set location, time, status, notes
+- **Evidence Annotation** — Mark evidence, crop details, enhance images, add annotations, redact sensitive info
+- **Dossier Generation** — Download a styled police casefile as PDF
+- **Image Compression** — Auto-compresses uploads for fast PDF rendering
 
-## Expanding the Oxlint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- [Vite](https://vite.dev/) + [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [@unlayer/react-image-editor](https://unlayer.com/react-image-editor)
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Getting Started
+
+```bash
+# Install dependencies
+bun install
+
+# Start dev server
+bun run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Project Structure
+
+```
+src/
+├── App.tsx                    # Screen router + navigation
+├── index.css                  # Design tokens, effects, print styles
+├── types/index.ts             # TypeScript types
+├── hooks/useCase.ts           # Case state + localStorage persistence
+├── utils/compressImage.ts     # Image compression utility
+├── data/
+│   ├── evidenceActions.ts     # Evidence tool configurations
+│   └── locations.ts           # Location presets
+└── components/
+    ├── Terminal.tsx            # Boot screen
+    ├── CaseCreation.tsx        # New case form
+    ├── Header.tsx              # Navigation bar
+    ├── InvestigationView.tsx   # Main investigation layout
+    ├── EditorModal.tsx         # Unlayer image editor
+    ├── EvidenceActions.tsx     # Evidence tool buttons
+    ├── EvidenceList.tsx        # Evidence items list
+    ├── CaseDetails.tsx         # Case metadata display
+    └── CasefileView.tsx        # Dossier PDF view
+```
+
+## Disclaimer
+
+A fan-made experience inspired by open-world crime games. Not affiliated with Rockstar Games.

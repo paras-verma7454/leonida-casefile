@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import ImageEditor, { type ImageEditorInstance } from '@unlayer/react-image-editor'
 import { evidenceActions } from '../data/evidenceActions'
+import { compressImage } from '../utils/compressImage'
 import type { EvidenceAction } from '../types'
 
 interface EditorModalProps {
@@ -39,8 +40,9 @@ export default function EditorModal({
 
   // This is called when user clicks Unlayer's built-in Save button
   const handleEditorSave = useCallback(
-    (result: { dataUrl: string; blob: Blob }) => {
-      setSavedImage(result.dataUrl)
+    async (result: { dataUrl: string; blob: Blob }) => {
+      const compressed = await compressImage(result.dataUrl)
+      setSavedImage(compressed)
       setStep('name')
     },
     []

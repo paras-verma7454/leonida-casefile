@@ -68,9 +68,10 @@ export function useCase() {
   }, [])
 
   const resetCase = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem('leonida-screen')
     const fresh = initialCase()
     setCaseData(fresh)
-    saveCase(fresh)
   }, [])
 
   return {

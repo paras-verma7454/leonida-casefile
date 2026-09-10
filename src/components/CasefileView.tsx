@@ -45,17 +45,17 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
           </div>
 
           {/* Paper section */}
-          <div className="paper-texture p-8">
+          <div className="paper-texture p-5">
             {/* Title */}
-            <div className="text-center mb-8">
-              <h1 className="font-display text-3xl text-evidence-ink mb-1">CASE DOSSIER</h1>
-              <div className="font-mono text-sm text-evidence-ink/60">
+            <div className="text-center mb-4">
+              <h1 className="font-display text-2xl text-evidence-ink mb-0.5">CASE DOSSIER</h1>
+              <div className="font-mono text-xs text-evidence-ink/60">
                 CASE #{caseData.caseNumber}
               </div>
             </div>
 
             {/* Stamp */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-4">
               <div className="stamp">
                 {caseData.status === 'ACTIVE'
                   ? 'ACTIVE'
@@ -66,14 +66,14 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
             </div>
 
             {/* Info grid */}
-            <div className="grid grid-cols-2 gap-4 mb-6 font-mono text-sm">
+            <div className="grid grid-cols-2 gap-3 mb-3 font-mono text-sm">
               <div>
-                <div className="text-evidence-ink/50 text-xs uppercase tracking-wider mb-1">Location</div>
-                <div className="text-evidence-ink font-semibold">{caseData.location || '—'}</div>
+                <div className="text-evidence-ink/50 text-[10px] uppercase tracking-wider mb-0.5">Location</div>
+                <div className="text-evidence-ink font-semibold text-xs">{caseData.location || '—'}</div>
               </div>
               <div>
-                <div className="text-evidence-ink/50 text-xs uppercase tracking-wider mb-1">Time</div>
-                <div className="text-evidence-ink font-semibold">
+                <div className="text-evidence-ink/50 text-[10px] uppercase tracking-wider mb-0.5">Time</div>
+                <div className="text-evidence-ink font-semibold text-xs">
                   {caseData.time
                     ? new Date(caseData.time).toLocaleString('en-US', {
                         month: 'long',
@@ -86,18 +86,18 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
                 </div>
               </div>
               <div>
-                <div className="text-evidence-ink/50 text-xs uppercase tracking-wider mb-1">Evidence Items</div>
-                <div className="text-evidence-ink font-semibold">{caseData.evidence.length}</div>
+                <div className="text-evidence-ink/50 text-[10px] uppercase tracking-wider mb-0.5">Evidence Items</div>
+                <div className="text-evidence-ink font-semibold text-xs">{caseData.evidence.length}</div>
               </div>
             </div>
 
             {/* Divider */}
-            <div className="border-t border-evidence-ink/20 my-6" />
+            <div className="border-t border-evidence-ink/20 my-3" />
 
             {/* Original Crime Scene */}
             {caseData.sceneImage && (
-              <div className="mb-6">
-                <h2 className="font-display text-xl text-evidence-ink mb-3">CRIME SCENE</h2>
+              <div className="mb-4">
+                <h2 className="font-display text-lg text-evidence-ink mb-2">CRIME SCENE</h2>
                 <img
                   src={caseData.sceneImage}
                   alt="Original crime scene"
@@ -108,37 +108,30 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
 
             {/* Evidence Items */}
             {caseData.evidence.length > 0 && (
-              <div className="mb-6">
-                <h2 className="font-display text-xl text-evidence-ink mb-3">EVIDENCE LOG</h2>
-                <div className="space-y-4">
+              <div className="mb-4">
+                <h2 className="font-display text-lg text-evidence-ink mb-2">EVIDENCE LOG</h2>
+                <div className="grid grid-cols-2 gap-2">
                   {caseData.evidence.map((item, i) => (
                     <div key={item.id} className="border border-evidence-ink/20 rounded-sm overflow-hidden">
-                      {/* Evidence image */}
-                      <div className="bg-vice-bg/10 p-2">
+                      <div className="h-28 bg-vice-bg/5 border-b border-evidence-ink/10 flex items-center justify-center p-1.5">
                         <img
                           src={item.annotatedImage}
                           alt={item.label}
-                          className="w-full border border-evidence-ink/10"
+                          className="max-w-full max-h-full object-contain"
                         />
                       </div>
-                      {/* Evidence info */}
-                      <div className="p-3">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-evidence-ink/40 font-mono text-xs tabular-nums">
+                      <div className="px-2 py-1.5">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-evidence-ink/40 font-mono text-[10px] tabular-nums">
                             #{String(i + 1).padStart(2, '0')}
                           </span>
-                          <span className="text-evidence-ink font-mono text-xs font-semibold uppercase">
+                          <span className="text-evidence-ink font-mono text-[10px] font-semibold uppercase truncate">
                             {item.label}
                           </span>
                         </div>
-                        <div className="text-evidence-ink/50 font-mono text-[10px] uppercase mb-1">
+                        <div className="text-evidence-ink/50 font-mono text-[9px] uppercase">
                           {getActionLabel(item.action)}
                         </div>
-                        {item.description && (
-                          <div className="text-evidence-ink/70 font-prose text-xs">
-                            {item.description}
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -148,16 +141,16 @@ export default function CasefileView({ caseData, onNavigate }: CasefileViewProps
 
             {/* Notes */}
             {caseData.notes && (
-              <div className="mb-6">
-                <h2 className="font-display text-xl text-evidence-ink mb-3">INCIDENT NOTES</h2>
-                <div className="font-prose text-sm text-evidence-ink leading-relaxed whitespace-pre-wrap">
+              <div className="mb-4">
+                <h2 className="font-display text-lg text-evidence-ink mb-2">INCIDENT NOTES</h2>
+                <div className="font-prose text-xs text-evidence-ink leading-relaxed whitespace-pre-wrap">
                   {caseData.notes}
                 </div>
               </div>
             )}
 
             {/* Footer */}
-            <div className="border-t border-evidence-ink/20 pt-4 mt-8">
+            <div className="border-t border-evidence-ink/20 pt-3 mt-4">
               <div className="flex justify-between font-mono text-xs text-evidence-ink/40">
                 <span>LEONIDA COUNTY POLICE DEPARTMENT</span>
                 <span>DIGITAL EVIDENCE UNIT</span>
